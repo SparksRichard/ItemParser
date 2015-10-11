@@ -15,7 +15,7 @@ public class ItemParser {
             "naMe:;price:3.23;type:Food^expiration:1/04/2016##";
 
     private ArrayList<Item> itemList = new ArrayList<Item>();
-    private int exceptionCount = 0;
+
 
 
     /**
@@ -23,12 +23,7 @@ public class ItemParser {
      */
     public String[] parseInput() {
         String[] parsed = input.split("##");
-        for (int i = 0; i < parsed.length; i++) {
-            System.out.println(parsed[i]);
-        }
-
         return parsed;
-
     }
 
     /**
@@ -41,7 +36,7 @@ public class ItemParser {
     public ItemParser() {
 
     }
-
+    private int exceptionCount = 0;
     public ArrayList<Item> buildItems(String[] parsedList) {
         for (String item : parsedList) {
             try {
@@ -57,15 +52,23 @@ public class ItemParser {
 
 
     public static void main(String[] args) {
-        int exceptionCount = 0;
+
         ItemParser itemParser = new ItemParser();
         String[] parsed = itemParser.parseInput();
         ArrayList<Item> itemList = itemParser.buildItems(parsed);
+
 
         ItemPrices cookiePrices = new ItemPrices("(?i)(c.*)", "Cookies", itemList);
         ItemPrices applesPrices = new ItemPrices("(?i)apples.*", "Apples", itemList);
         ItemPrices breadPrices = new ItemPrices("(?i)(bread)", "Bread", itemList);
         ItemPrices milkPrices = new ItemPrices("(?i)(milk)", "Milk", itemList);
+
+        ItemFormatter itemFormatter = new ItemFormatter();
+        itemFormatter.printItem(milkPrices);
+        itemFormatter.printItem(breadPrices);
+        itemFormatter.printItem(cookiePrices);
+        itemFormatter.printItem(applesPrices);
+        itemFormatter.printErrors(itemParser.exceptionCount);
 
 
     }
