@@ -4,7 +4,10 @@ import ItemParser.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -17,17 +20,22 @@ public class ItemTest {
 
     @Test
     public void testConstructor() {
-        Item item = new Item();
         try {
-            item = new Item( "naMe:MiLK;price:3.23;type:Food^expiration:1/11/2016" );
-        }
-        catch (Exception e){
+            Date dateTest = new SimpleDateFormat("mm/dd/yyyy").parse("1/11/2016");
+            Item item = new Item();
+            try {
+                item = new Item( "naMe:MiLK;price:3.23;type:Food^expiration:1/11/2016" );
+            }
+            catch (Exception e){
 
+            }
+            assertEquals("Name should be MiLK", "MiLK", item.name);
+            assertTrue("Price should be 3.23", 3.23f == item.price);
+            assertEquals("Type should be Food", "Food", item.type);
+            assertEquals("Expiration should be 1/11/2016", dateTest, item.expiration);
+        } catch (ParseException e) {
         }
-        assertEquals("Name should be MiLK", "MiLK", item.name);
-        assertTrue("Price should be 3.23", 3.23f == item.price);
-        assertEquals("Type should be Food", "Food", item.type);
-        assertEquals("Expiration should be 1/11/2016", "1/11/2016", item.expiration);
+
     }
 
     @Test

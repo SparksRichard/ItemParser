@@ -8,7 +8,7 @@ import java.util.Formatter;
  * This class takes ItemPrices objects, formats and prints them to the screen,
  */
 public class ItemFormatter {
-    private Formatter f = new Formatter(System.out);
+    private Formatter formatter = new Formatter(System.out);
 
     /**
      * Formats and prints the name of item, how many times it was seen, then cycles through and prints price and how many items at that particular price
@@ -17,15 +17,15 @@ public class ItemFormatter {
     public void printItem(ItemPrices itemPrices) {
         int itemTotal = itemPrices.totalOfItem();
         ArrayList<float[]> itemAmount = itemPrices.priceList;
-        f.format("%-5s %8s %6s %-5s %1d %-6s\n", "name:",itemPrices.name,"","seen:",itemTotal,timeOrTimes(itemTotal));
-        f.format("%14s %6s %13s\n","==============","","=============");
+        formatter.format("%-5s %8s %6s %-5s %1d %-6s\n", "name:", itemPrices.name, "", "seen:", itemTotal, timeOrTimes(itemTotal));
+        formatter.format("%14s %6s %13s\n", "==============", "", "=============");
         for(float[] price: itemAmount){
-            f.format("%-9s %4.2f %6s %-5s %1d %-6s\n","Price:",price[0],"","seen:",(int)price[1],timeOrTimes((int)price[1]));
+            formatter.format("%-9s %4.2f %6s %-5s %1d %-6s\n", "Price:", price[0], "", "seen:", (int) price[1], timeOrTimes((int) price[1]));
             if(price!=itemAmount.get(itemAmount.size()-1)||itemAmount.size()==1){
-                f.format("%14s %6s %13s\n","--------------","","-------------");
+                formatter.format("%14s %6s %13s\n", "--------------", "", "-------------");
             }
         }
-        f.format("\n");
+        formatter.format("\n");
     }
 
     /**
@@ -33,7 +33,7 @@ public class ItemFormatter {
      * @param errorCount total number of items that failed to be constructed
      */
     public void printErrors(int errorCount){
-        f.format("%-21s %-5s %1d %-6s\n","Errors","seen:",errorCount,timeOrTimes(errorCount));
+        formatter.format("%-21s %-5s %1d %-6s\n", "Errors", "seen:", errorCount, timeOrTimes(errorCount));
     }
 
     /**

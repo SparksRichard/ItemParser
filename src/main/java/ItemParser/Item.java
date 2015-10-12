@@ -1,5 +1,6 @@
 package ItemParser;
 
+import java.text.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.regex.Matcher;
@@ -13,7 +14,7 @@ public class Item {
     public String name;
     public float price;
     public String type;
-    public String expiration;
+    public Date expiration;
     private ArrayList<Item> itemList = new ArrayList<Item>();
     private int exceptionCount = 0;
 
@@ -36,10 +37,15 @@ public class Item {
     public Item(String input) throws ItemException {
         Matcher separateFields = itemPattern.matcher(input);
         separateFields.find();
+        SimpleDateFormat formatDate = new SimpleDateFormat("mm/dd/yyyy");
         this.name = separateFields.group(1);
-        this.price = Float.valueOf(separateFields.group(2));
+        this.price = Float.parseFloat(separateFields.group(2));
         this.type = separateFields.group(3);
-        this.expiration = separateFields.group(4);
+        try {
+            this.expiration = formatDate.parse(separateFields.group(4));
+        } catch (ParseException e) {
+            throw new ItemException();
+        }
     }
 
     /**
